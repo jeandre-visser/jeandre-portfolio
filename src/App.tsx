@@ -485,8 +485,8 @@ function App() {
             <div className="featured-copy">
               <SubTrackMark label />
               <p className="featured-lead">
-                T&M and LEM software built for crews who need proof before the
-                invoice.
+                T&M and LEM software for tracking labor, equipment, and
+                materials in the field.
               </p>
               <p>
                 I lead product and frontend, translating field workflows into a

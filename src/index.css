@@ -1036,26 +1036,119 @@ img {
 }
 
 @container (max-width: 620px) {
+  .lem-demo {
+    min-height: 0;
+  }
+
   .lem-role,
-  .lem-sidebar {
+  .lem-sidebar,
+  .lem-lines,
+  .lem-docs,
+  .lem-docs.is-on,
+  .lem-workflow,
+  .lem-entry,
+  .lem-hint,
+  .lem-more {
     display: none;
+  }
+
+  .lem-nav {
+    height: 40px;
+    padding-inline: 12px 14px;
+  }
+
+  .lem-company {
+    font-size: 14px;
+  }
+
+  .lem-shell {
+    overflow: hidden;
   }
 
   .lem-body {
-    grid-template-columns: 1fr;
-    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 12px 12px;
+    overflow: hidden;
   }
 
-  .lem-docs-row {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  .lem-ticket {
+    flex-shrink: 0;
   }
 
-  .lem-docs-row img:last-child {
-    display: none;
+  .lem-project {
+    padding: 8px 12px 10px;
+    border-radius: 16px;
   }
 
-  .lem-workflow {
-    min-height: 118px;
+  .lem-kicker,
+  .lem-summary-kicker {
+    font-size: 10px;
+  }
+
+  .lem-select {
+    margin: 4px 0 6px;
+    padding: 6px 10px;
+    font-size: 12.5px;
+    border-radius: 12px;
+  }
+
+  .lem-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+  }
+
+  .lem-meta span {
+    font-size: 10px;
+  }
+
+  .lem-meta strong {
+    font-size: 11.5px;
+  }
+
+  .lem-summary {
+    flex: 1;
+    min-height: 0;
+    gap: 8px;
+    padding: 10px 12px 12px;
+    border-radius: 16px;
+  }
+
+  .lem-totals {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .lem-totals div {
+    padding: 6px 8px;
+    border-radius: 10px;
+  }
+
+  .lem-totals span {
+    gap: 5px;
+    font-size: 10.5px;
+  }
+
+  .lem-totals b {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .lem-charge {
+    padding: 9px 12px;
+    border-radius: 12px;
+  }
+
+  .lem-charge span {
+    margin-bottom: 2px;
+    font-size: 10px;
+  }
+
+  .lem-charge strong {
+    font-size: 21px;
   }
 }
 
@@ -1447,7 +1540,8 @@ img {
   }
 
   .featured-media.is-product {
-    min-height: 560px;
+    height: 400px;
+    min-height: 0;
   }
 
   .path-section,
@@ -1532,7 +1626,12 @@ img {
   }
 
   .featured-copy {
+    min-height: 0;
     padding: 28px 22px;
+  }
+
+  .featured-media.is-product {
+    height: 380px;
   }
 
   .timeline-item {
