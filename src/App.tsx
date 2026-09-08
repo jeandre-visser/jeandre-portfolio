@@ -304,8 +304,8 @@ function App() {
           <Reveal className="featured-bezel" delay={0.08}>
             <div className="featured-media">
               <img
-                src="/assets/subtrack-field.png"
-                alt="Field crew working on a utility project"
+                src="/assets/building-now.jpg"
+                alt="Excavators and haul trucks working on an active construction site"
                 width="1024"
                 height="576"
                 loading="lazy"
