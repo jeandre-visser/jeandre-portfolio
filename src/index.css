@@ -12,6 +12,7 @@
   --surface: #fcfcfa;
   --surface-alpha: rgb(247 247 244 / 86%);
   --surface-subtle: #f0f0ec;
+  --logo-surface: #fdfdfb;
   --inverse: #26251e;
   --inverse-ink: #f7f7f4;
   --focus: #b45a2a;
@@ -291,8 +292,10 @@ img {
 
 .portrait-frame {
   position: relative;
+  justify-self: end;
+  width: min(100%, 390px);
   aspect-ratio: 4 / 5;
-  max-height: 620px;
+  max-height: 510px;
   margin: 0;
   overflow: hidden;
   border: 1px solid var(--hairline);
@@ -504,6 +507,15 @@ img {
   height: 15px;
 }
 
+.experience-logo {
+  width: 24px;
+  height: 24px;
+  padding: 2px;
+  border-radius: 4px;
+  background: var(--logo-surface);
+  object-fit: contain;
+}
+
 .timeline-content > p {
   max-width: 540px;
   margin: 18px 0 0;
@@ -540,7 +552,7 @@ img {
 
 .work-wide {
   grid-column: 9 / span 4;
-  margin-top: 170px;
+  margin-top: 110px;
 }
 
 .work-standard {
@@ -613,6 +625,15 @@ img {
 .work-meta h3 .subtrack-mark {
   width: 19px;
   height: 19px;
+}
+
+.work-brand-logo {
+  width: 22px;
+  height: 22px;
+  padding: 2px;
+  border-radius: 4px;
+  background: var(--logo-surface);
+  object-fit: contain;
 }
 
 .work-type {
@@ -699,8 +720,39 @@ img {
   font-size: clamp(40px, 4.8vw, 68px);
 }
 
+.education-list {
+  border-top: 1px solid var(--hairline);
+}
+
+.education-item {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px;
+  min-height: 132px;
+  padding-block: 22px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.education-logo-wrap {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  padding: 8px;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  background: var(--logo-surface);
+}
+
+.education-logo-wrap img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
 .education-detail {
-  padding-top: 8px;
+  min-width: 0;
 }
 
 .education-detail p {
@@ -715,9 +767,7 @@ img {
   color: var(--ink);
 }
 
-.education-detail span {
-  display: block;
-  margin-top: 28px;
+.education-year {
   font-family: 'Geist Mono Variable', monospace;
   font-size: 11px;
   color: var(--faint);
@@ -784,7 +834,7 @@ img {
 
 @media (max-width: 900px) {
   .hero {
-    grid-template-columns: 1fr 0.72fr;
+    grid-template-columns: 1fr minmax(260px, 0.58fr);
     gap: 38px;
   }
 
@@ -810,9 +860,19 @@ img {
     position: static;
   }
 
-  .work-wide {
-    grid-column: 8 / span 5;
-    margin-top: 120px;
+  .work-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .work-featured,
+  .work-wide,
+  .work-standard {
+    grid-column: auto;
+    margin-top: 0;
+  }
+
+  .work-wide .work-image {
+    aspect-ratio: 16 / 10;
   }
 }
 
@@ -860,9 +920,10 @@ img {
   }
 
   .portrait-frame {
-    width: 100%;
+    justify-self: center;
+    width: min(84%, 320px);
     max-height: none;
-    aspect-ratio: 5 / 6;
+    aspect-ratio: 4 / 5;
   }
 
   .section {
@@ -905,13 +966,6 @@ img {
     margin-top: 52px;
   }
 
-  .work-featured,
-  .work-wide,
-  .work-standard {
-    grid-column: auto;
-    margin-top: 0;
-  }
-
   .work-wide .work-image {
     aspect-ratio: 16 / 11;
   }
@@ -930,6 +984,21 @@ img {
 
   .craft-group h3 {
     margin-top: 44px;
+  }
+
+  .education-item {
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .education-logo-wrap {
+    width: 52px;
+    height: 52px;
+    padding: 6px;
+  }
+
+  .education-year {
+    grid-column: 2;
   }
 
   .contact-section {

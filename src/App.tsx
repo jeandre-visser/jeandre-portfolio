@@ -32,30 +32,42 @@ const experiences = [
     period: 'Nov 2025-present',
     role: 'Co-Founder & CPO / Product Engineer',
     company: 'SubTrack',
+    logo: 'subtrack',
     detail:
       'Own product direction, product design, and frontend delivery for field-first T&M and LEM software.',
     featured: true,
   },
   {
-    period: '2024-2025',
+    period: '2023-2025',
     role: 'Intermediate Full Stack Developer',
     company: 'Nurish’d',
+    logo: '/assets/nurishd-logo.png',
     detail:
       'Built food-as-medicine product experiences across TypeScript, Next.js, Python, and FastAPI.',
   },
   {
-    period: '2023-2024',
+    period: '2022-2023',
     role: 'Jr. Full Stack Developer',
     company: 'nutrimeals',
+    logo: '/assets/nutrimeals-logo.png',
     detail:
       'Shipped customer-facing features and internal workflows for a growing prepared-meal platform.',
   },
   {
-    period: 'Before software',
+    period: '2020-2022',
     role: 'Junior Project Manager',
     company: 'TerraLogix Solutions',
+    logo: '/assets/terralogix.png',
     detail:
       'Worked close to field operations, schedules, and the realities that now shape how I build software.',
+  },
+  {
+    period: '2017-2019',
+    role: 'Junior Operator',
+    company: 'Cenovus Energy',
+    logo: '/assets/cenovus.png',
+    detail:
+      'Built an early understanding of oil and gas operations, field teams, and safety-led work.',
   },
 ]
 
@@ -69,37 +81,18 @@ const work = [
     href: 'https://www.subtrackfield.com/',
     className: 'work-featured',
     alt: 'Construction crew working beside an open trench and excavation equipment',
-    logo: true,
+    subtrackLogo: true,
   },
   {
-    title: 'CarHub',
-    type: 'Next.js / TypeScript',
+    title: 'Nurish’d',
+    type: 'Full stack / Product delivery',
     description:
-      'A responsive car marketplace with search, filters, and detailed vehicle views.',
-    image: '/assets/carhub.webp',
-    href: 'https://carhub-chi.vercel.app/',
+      'A nutrition care platform connecting meal plans, dietitian appointments, health tracking, and food-as-medicine.',
+    image: '/assets/nurishd-homepage.png',
+    href: 'https://www.nurishd.store/',
     className: 'work-wide',
-    alt: 'CarHub vehicle marketplace homepage',
-  },
-  {
-    title: 'Tunify',
-    type: 'React / Redux',
-    description:
-      'A music discovery experience with responsive playback, charts, artists, and lyrics.',
-    image: '/assets/tunify.png',
-    href: 'https://github.com/jeandre-visser/tunify',
-    className: 'work-standard',
-    alt: 'Tunify music application interface',
-  },
-  {
-    title: 'Frame Fitness',
-    type: 'React / Express',
-    description:
-      'A training library built with a partner as the Lighthouse Labs final project.',
-    image: '/assets/frame-fitness.png',
-    href: 'https://github.com/jeandre-visser/frame-fitness',
-    className: 'work-standard',
-    alt: 'Frame Fitness exercise library interface',
+    alt: 'Nurish’d nutrition care platform homepage',
+    brandLogo: '/assets/nurishd-logo.png',
   },
 ]
 
@@ -365,7 +358,16 @@ function App() {
                   <div className="timeline-heading">
                     <h3>{experience.role}</h3>
                     <span className="company">
-                      {experience.featured && <SubTrackMark />}
+                      {experience.logo === 'subtrack' ? (
+                        <SubTrackMark />
+                      ) : (
+                        <img
+                          className="experience-logo"
+                          src={experience.logo}
+                          alt=""
+                          aria-hidden="true"
+                        />
+                      )}
                       {experience.company}
                     </span>
                   </div>
@@ -380,8 +382,8 @@ function App() {
           <Reveal className="work-heading">
             <h2>Selected work.</h2>
             <p>
-              Product work leads. Earlier builds show the hands-on foundation
-              behind it.
+              Two products shaped by hands-on frontend work, product thinking,
+              and close attention to the people using them.
             </p>
           </Reveal>
 
@@ -411,7 +413,15 @@ function App() {
                   <div className="work-meta">
                     <div>
                       <h3>
-                        {project.logo && <SubTrackMark />}
+                        {project.subtrackLogo && <SubTrackMark />}
+                        {project.brandLogo && (
+                          <img
+                            className="work-brand-logo"
+                            src={project.brandLogo}
+                            alt=""
+                            aria-hidden="true"
+                          />
+                        )}
                         {project.title}
                       </h3>
                       <p className="work-type">{project.type}</p>
@@ -452,10 +462,31 @@ function App() {
         <section className="section education-section shell" id="education">
           <Reveal className="education-layout">
             <h2>Education.</h2>
-            <div className="education-detail">
-              <p className="education-school">Lighthouse Labs</p>
-              <p>Diploma of Full Stack Web Development</p>
-              <span>2022</span>
+            <div className="education-list">
+              <div className="education-item">
+                <div className="education-logo-wrap">
+                  <img
+                    src="/assets/lighthouse-labs.png"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </div>
+                <div className="education-detail">
+                  <p className="education-school">Lighthouse Labs</p>
+                  <p>Diploma of Full Stack Web Development</p>
+                </div>
+                <span className="education-year">2022</span>
+              </div>
+              <div className="education-item">
+                <div className="education-logo-wrap">
+                  <img src="/assets/uofa.png" alt="" aria-hidden="true" />
+                </div>
+                <div className="education-detail">
+                  <p className="education-school">University of Alberta</p>
+                  <p>Bachelor of Science</p>
+                </div>
+                <span className="education-year">2020</span>
+              </div>
             </div>
           </Reveal>
         </section>
