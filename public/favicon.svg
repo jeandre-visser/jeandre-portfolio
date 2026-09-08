@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <circle cx="32" cy="32" r="30" fill="#fdfdfb"/>
   <text
-    x="32"
-    y="33"
+    x="31.88"
+    y="32.4"
     fill="#26251e"
-    font-family="Geist, Arial, sans-serif"
-    font-size="20"
+    font-family="Geist, Arial, Helvetica, sans-serif"
+    font-size="28"
     font-weight="700"
-    letter-spacing="-1.5"
+    letter-spacing="-1.8"
     text-anchor="middle"
-    dominant-baseline="middle"
+    dominant-baseline="central"
   >JV</text>
 </svg>

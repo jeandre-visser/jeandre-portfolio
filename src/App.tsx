@@ -1,14 +1,22 @@
 import { useEffect, useState, type ReactNode } from 'react'
+import { SubTrackDemo } from './SubTrackDemo'
 import {
   ArrowDownRight,
   ArrowUpRight,
   EnvelopeSimple,
   GithubLogo,
   LinkedinLogo,
+  List,
   Moon,
   Sun,
+  X,
 } from '@phosphor-icons/react'
-import { motion, MotionConfig, useReducedMotion } from 'motion/react'
+import {
+  AnimatePresence,
+  motion,
+  MotionConfig,
+  useReducedMotion,
+} from 'motion/react'
 import {
   siFastapi,
   siFigma,
@@ -33,8 +41,9 @@ const experiences = [
     role: 'Co-Founder & CPO / Product Engineer',
     company: 'SubTrack',
     logo: 'subtrack',
+    href: 'https://www.subtrackfield.com/',
     detail:
-      'Own product direction, product design, and frontend delivery for field-first T&M and LEM software.',
+      'Own product direction, product design, and frontend delivery for field-first construction SaaS.',
     featured: true,
   },
   {
@@ -42,6 +51,7 @@ const experiences = [
     role: 'Intermediate Full Stack Developer',
     company: 'Nurish’d',
     logo: '/assets/nurishd-logo.png',
+    href: 'https://www.nurishd.store/',
     detail:
       'Built food-as-medicine product experiences across TypeScript, Next.js, Python, and FastAPI.',
   },
@@ -50,6 +60,7 @@ const experiences = [
     role: 'Jr. Full Stack Developer',
     company: 'nutrimeals',
     logo: '/assets/nutrimeals-logo.png',
+    href: 'https://nutrimeals.ca/',
     detail:
       'Shipped customer-facing features and internal workflows for a growing prepared-meal platform.',
   },
@@ -58,6 +69,7 @@ const experiences = [
     role: 'Junior Project Manager',
     company: 'TerraLogix Solutions',
     logo: '/assets/terralogix.png',
+    href: 'https://www.terralogix.ca/',
     detail:
       'Worked close to field operations, schedules, and the realities that now shape how I build software.',
   },
@@ -66,6 +78,7 @@ const experiences = [
     role: 'Junior Operator',
     company: 'Cenovus Energy',
     logo: '/assets/cenovus.png',
+    href: 'https://www.cenovus.com/',
     detail:
       'Built an early understanding of oil and gas operations, field teams, and safety-led work.',
   },
@@ -74,13 +87,10 @@ const experiences = [
 const work = [
   {
     title: 'SubTrack',
-    type: 'Product leadership / Frontend',
+    type: 'Product engineer / Frontend / UI UX',
     description:
       'Field-first software that turns labor, equipment, and materials into approved, billable records.',
-    image: '/assets/subtrack-field.png',
     href: 'https://www.subtrackfield.com/',
-    className: 'work-featured',
-    alt: 'Construction crew working beside an open trench and excavation equipment',
     subtrackLogo: true,
   },
   {
@@ -88,10 +98,7 @@ const work = [
     type: 'Full stack / Product delivery',
     description:
       'A nutrition care platform connecting meal plans, dietitian appointments, health tracking, and food-as-medicine.',
-    image: '/assets/nurishd-homepage.png',
     href: 'https://www.nurishd.store/',
-    className: 'work-wide',
-    alt: 'Nurish’d nutrition care platform homepage',
     brandLogo: '/assets/nurishd-logo.png',
   },
 ]
@@ -117,6 +124,13 @@ const craft = [
     note: 'Git, Vite, JavaScript, delivery from idea to production',
     icons: [siGit, siVite, siJavascript],
   },
+]
+
+const navItems = [
+  { href: '#now', label: 'Now' },
+  { href: '#path', label: 'Experience' },
+  { href: '#work', label: 'Work' },
+  { href: '#education', label: 'Education' },
 ]
 
 function ThemeToggle({
@@ -192,10 +206,96 @@ function TechIcon({ icon }: { icon: SimpleIcon }) {
   )
 }
 
+function useIsNarrow(query = '(max-width: 720px)') {
+  const [matches, setMatches] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia(query).matches : false,
+  )
+
+  useEffect(() => {
+    const media = window.matchMedia(query)
+    const onChange = () => setMatches(media.matches)
+    onChange()
+    media.addEventListener('change', onChange)
+    return () => media.removeEventListener('change', onChange)
+  }, [query])
+
+  return matches
+}
+
+function PortraitStack({ reduceMotion }: { reduceMotion: boolean | null }) {
+  const isNarrow = useIsNarrow()
+  const spring = {
+    type: 'spring' as const,
+    stiffness: 58,
+    damping: 18,
+    mass: 0.95,
+  }
+  const viewport = { once: true, amount: 0.45, margin: '0px 0px -8% 0px' }
+
+  return (
+    <div className="portrait-stack">
+      {[4, 3, 2, 1].map((layer) => (
+        <motion.span
+          className="portrait-disc"
+          aria-hidden="true"
+          data-layer={layer}
+          key={layer}
+          initial={
+            reduceMotion
+              ? false
+              : isNarrow
+                ? { x: 0, y: 180 + layer * 40, opacity: 0, scale: 0.98 }
+                : { x: 200 + layer * 48, y: 0, opacity: 0, scale: 0.98 }
+          }
+          whileInView={
+            isNarrow
+              ? { x: 0, y: layer * 28, opacity: 1, scale: 1 }
+              : { x: layer * 28, y: 0, opacity: 1, scale: 1 }
+          }
+          viewport={viewport}
+          transition={{
+            ...spring,
+            delay: reduceMotion ? 0 : layer * 0.09,
+          }}
+        />
+      ))}
+      <motion.figure
+        className="portrait-frame"
+        initial={
+          reduceMotion
+            ? false
+            : isNarrow
+              ? { x: 0, y: 180, opacity: 0, scale: 0.98 }
+              : { x: 200, y: 0, opacity: 0, scale: 0.98 }
+        }
+        whileInView={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+        viewport={viewport}
+        transition={{
+          type: 'spring',
+          stiffness: 64,
+          damping: 18,
+          mass: 0.85,
+          delay: reduceMotion ? 0 : 0.04,
+        }}
+      >
+        <img
+          src="/assets/jeandre.jpg"
+          alt="Jeandré Visser"
+          width="1024"
+          height="1024"
+          fetchPriority="high"
+        />
+      </motion.figure>
+    </div>
+  )
+}
+
 function App() {
   const [theme, setTheme] = useState<Theme>(
-    () => (document.documentElement.dataset.theme as Theme) || 'light',
+    () => (document.documentElement.dataset.theme as Theme) || 'dark',
   )
+  const [menuOpen, setMenuOpen] = useState(false)
+  const reduceMotion = useReducedMotion()
 
   useEffect(() => {
     const meta = document.querySelector<HTMLMetaElement>(
@@ -204,6 +304,23 @@ function App() {
     meta?.setAttribute('content', theme === 'dark' ? '#0c0c0b' : '#f7f7f4')
   }, [theme])
 
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false)
+    }
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', onKeyDown)
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [menuOpen])
+
   const toggleTheme = () => {
     const nextTheme = theme === 'light' ? 'dark' : 'light'
     document.documentElement.dataset.theme = nextTheme
@@ -211,6 +328,8 @@ function App() {
     localStorage.setItem('theme', nextTheme)
     setTheme(nextTheme)
   }
+
+  const closeMenu = () => setMenuOpen(false)
 
   return (
     <MotionConfig reducedMotion="user">
@@ -229,18 +348,90 @@ function App() {
             JV
           </a>
           <div className="nav-links">
-            <a href="#now">Now</a>
-            <a href="#path">Path</a>
-            <a href="#work">Work</a>
+            {navItems.map((item) => (
+              <a href={item.href} key={item.href}>
+                {item.label}
+              </a>
+            ))}
           </div>
           <div className="nav-actions">
             <a className="nav-contact" href="mailto:jeandrev1414@gmail.com">
               Get in touch
             </a>
             <ThemeToggle theme={theme} onToggle={toggleTheme} />
+            <button
+              className="icon-button menu-toggle"
+              type="button"
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-nav"
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              {menuOpen ? <X size={18} weight="bold" /> : <List size={18} weight="bold" />}
+            </button>
           </div>
         </nav>
       </motion.header>
+
+      <AnimatePresence>
+        {menuOpen && (
+          <div className="mobile-nav" id="mobile-nav">
+            <motion.button
+              className="mobile-nav-backdrop"
+              type="button"
+              aria-label="Close menu"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.22 }}
+              onClick={closeMenu}
+            />
+            <motion.aside
+              className="mobile-nav-drawer"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile navigation"
+              initial={reduceMotion ? false : { x: '100%' }}
+              animate={{ x: 0 }}
+              exit={reduceMotion ? undefined : { x: '100%' }}
+              transition={{
+                type: 'spring',
+                stiffness: 320,
+                damping: 34,
+                mass: 0.85,
+              }}
+            >
+              <div className="mobile-nav-links">
+                {navItems.map((item, index) => (
+                  <motion.a
+                    href={item.href}
+                    key={item.href}
+                    onClick={closeMenu}
+                    initial={reduceMotion ? false : { opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 220,
+                      damping: 24,
+                      delay: reduceMotion ? 0 : 0.06 + index * 0.05,
+                    }}
+                  >
+                    {item.label}
+                  </motion.a>
+                ))}
+              </div>
+              <a
+                className="button button-primary mobile-nav-contact"
+                href="mailto:jeandrev1414@gmail.com"
+                onClick={closeMenu}
+              >
+                Get in touch
+                <ArrowUpRight size={17} />
+              </a>
+            </motion.aside>
+          </div>
+        )}
+      </AnimatePresence>
 
       <main id="main">
         <section className="hero shell" id="top">
@@ -256,9 +447,13 @@ function App() {
             }}
           >
             <p className="role-line">Co-Founder and CPO, SubTrack</p>
-            <h1>Jeandré Visser.</h1>
+            <h1>
+              Jeandré
+              <br />
+              Visser.
+            </h1>
             <p className="hero-statement">
-              I design and ship the product field crews actually use.
+              I design, build, and ship product.
             </p>
             <div className="hero-actions">
               <a className="button button-primary" href="#work">
@@ -274,25 +469,7 @@ function App() {
             </div>
           </motion.div>
 
-          <motion.figure
-            className="portrait-frame"
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{
-              type: 'spring',
-              stiffness: 70,
-              damping: 20,
-              delay: 0.18,
-            }}
-          >
-            <img
-              src="/assets/jeandre.jpg"
-              alt="Jeandré Visser"
-              width="1024"
-              height="1024"
-              fetchPriority="high"
-            />
-          </motion.figure>
+          <PortraitStack reduceMotion={reduceMotion} />
         </section>
 
         <section className="section shell" id="now">
@@ -302,14 +479,8 @@ function App() {
           </Reveal>
 
           <Reveal className="featured-bezel" delay={0.08}>
-            <div className="featured-media">
-              <img
-                src="/assets/building-now.jpg"
-                alt="Excavators and haul trucks working on an active construction site"
-                width="1024"
-                height="576"
-                loading="lazy"
-              />
+            <div className="featured-media is-product">
+              <SubTrackDemo />
             </div>
             <div className="featured-copy">
               <SubTrackMark label />
@@ -357,7 +528,12 @@ function App() {
                 <div className="timeline-content">
                   <div className="timeline-heading">
                     <h3>{experience.role}</h3>
-                    <span className="company">
+                    <a
+                      className="company"
+                      href={experience.href}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       {experience.logo === 'subtrack' ? (
                         <SubTrackMark />
                       ) : (
@@ -369,7 +545,7 @@ function App() {
                         />
                       )}
                       {experience.company}
-                    </span>
+                    </a>
                   </div>
                   <p>{experience.detail}</p>
                 </div>
@@ -380,9 +556,9 @@ function App() {
 
         <section className="section shell" id="work">
           <Reveal className="work-heading">
-            <h2>Selected work.</h2>
+            <h2>Products I’ve shipped.</h2>
             <p>
-              Two products shaped by hands-on frontend work, product thinking,
+              Two products shaped by hands-on fullstack work, product thinking,
               and close attention to the people using them.
             </p>
           </Reveal>
@@ -390,7 +566,7 @@ function App() {
           <div className="work-grid">
             {work.map((project, index) => (
               <Reveal
-                className={`work-item ${project.className}`}
+                className="work-item"
                 delay={index * 0.05}
                 key={project.title}
               >
@@ -398,18 +574,9 @@ function App() {
                   href={project.href}
                   target="_blank"
                   rel="noreferrer"
-                  whileHover={{ y: -4 }}
+                  whileHover={{ y: -3 }}
                   transition={{ type: 'spring', stiffness: 280, damping: 24 }}
                 >
-                  <div className="work-image">
-                    <img
-                      src={project.image}
-                      alt={project.alt}
-                      loading="lazy"
-                      width="1200"
-                      height="760"
-                    />
-                  </div>
                   <div className="work-meta">
                     <div>
                       <h3>
@@ -437,7 +604,7 @@ function App() {
 
         <section className="section craft-section shell" id="craft">
           <Reveal>
-            <h2>Craft, grouped by the work.</h2>
+            <h2>How the work gets made.</h2>
           </Reveal>
 
           <div className="craft-grid">
@@ -493,21 +660,14 @@ function App() {
 
         <section className="contact-section shell" id="contact">
           <Reveal>
-            <h2>Let’s build something people will use.</h2>
-            <a
-              className="contact-email"
-              href="mailto:jeandrev1414@gmail.com"
-            >
-              Get in touch
-              <ArrowUpRight size={30} />
-            </a>
+            <h2>Let’s connect.</h2>
             <div className="social-links">
               <a
                 href="https://github.com/jeandre-visser"
                 target="_blank"
                 rel="noreferrer"
               >
-                <GithubLogo size={18} />
+                <GithubLogo size={28} />
                 GitHub
               </a>
               <a
@@ -515,11 +675,11 @@ function App() {
                 target="_blank"
                 rel="noreferrer"
               >
-                <LinkedinLogo size={18} />
+                <LinkedinLogo size={28} />
                 LinkedIn
               </a>
               <a href="mailto:jeandrev1414@gmail.com">
-                <EnvelopeSimple size={18} />
+                <EnvelopeSimple size={28} />
                 Email
               </a>
             </div>

@@ -7,18 +7,14 @@
       name="description"
       content="Jeandré Visser is Co-Founder and CPO at SubTrack, designing and shipping field-first construction software."
     />
-    <meta name="theme-color" content="#f7f7f4" />
+    <meta name="theme-color" content="#0c0c0b" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>Jeandré Visser | Co-Founder &amp; CPO</title>
     <script>
       (() => {
         const stored = localStorage.getItem('theme')
         const theme =
-          stored === 'light' || stored === 'dark'
-            ? stored
-            : matchMedia('(prefers-color-scheme: dark)').matches
-              ? 'dark'
-              : 'light'
+          stored === 'light' || stored === 'dark' ? stored : 'dark'
         document.documentElement.dataset.theme = theme
         document.documentElement.style.colorScheme = theme
       })()
