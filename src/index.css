@@ -144,8 +144,10 @@ img {
   place-items: center;
   width: 34px;
   height: 34px;
-  border: 1px solid var(--hairline-strong);
-  border-radius: 6px;
+  border: 1px solid var(--inverse);
+  border-radius: 999px;
+  background: var(--inverse);
+  color: var(--inverse-ink);
   font-size: 12px;
   font-weight: 660;
   letter-spacing: -0.06em;
