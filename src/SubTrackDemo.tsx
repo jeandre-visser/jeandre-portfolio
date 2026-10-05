@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from "react";
 import {
   Bell,
   Briefcase,
@@ -10,39 +10,43 @@ import {
   Plus,
   Receipt,
   Wrench,
-} from '@phosphor-icons/react'
-import { AnimatePresence, motion, useInView, useReducedMotion } from 'motion/react'
+} from "@phosphor-icons/react";
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  useReducedMotion,
+} from "motion/react";
 
-const LABOR = 760
-const EQUIPMENT = 1040
-const MATERIALS = 825
-const SUBS = 1560
-const TOTAL = LABOR + EQUIPMENT + MATERIALS + SUBS
+const LABOR = 760;
+const EQUIPMENT = 1040;
+const MATERIALS = 825;
+const SUBS = 1560;
+const TOTAL = LABOR + EQUIPMENT + MATERIALS + SUBS;
 
-const TIMELINE = [720, 1500, 2280, 3040, 3800, 4560, 5600, 7400] as const
-const LOOP_AT = 12400
+const TIMELINE = [720, 1500, 2280, 3040, 3800, 4560, 5600, 7400] as const;
+const LOOP_AT = 12400;
 
-const easeOut = [0.22, 1, 0.36, 1] as const
-const workflowEase = [0.22, 0.72, 0.18, 1] as const
-const workflowTransition = { duration: 0.55, ease: workflowEase }
+const workflowEase = [0.22, 0.72, 0.18, 1] as const;
+const workflowTransition = { duration: 0.55, ease: workflowEase };
 
 const photos = [
   {
-    src: '/assets/subtrack-field.png',
-    alt: 'Crew working a trench with excavation equipment',
+    src: "/assets/subtrack-field.png",
+    alt: "Crew working a trench with excavation equipment",
   },
   {
-    src: '/assets/building-now.jpg',
-    alt: 'Active construction site',
+    src: "/assets/building-now.jpg",
+    alt: "Active construction site",
   },
   {
-    src: '/assets/building-now-poster.jpg',
-    alt: 'Aerial view of earthworks',
+    src: "/assets/building-now-poster.jpg",
+    alt: "Aerial view of earthworks",
   },
-]
+];
 
 function formatMoney(value: number) {
-  return `$${value.toLocaleString('en-US')}`
+  return `$${value.toLocaleString("en-US")}`;
 }
 
 function Money({
@@ -50,42 +54,42 @@ function Money({
   play,
   reduced,
 }: {
-  value: number
-  play: boolean
-  reduced: boolean
+  value: number;
+  play: boolean;
+  reduced: boolean;
 }) {
-  const [shown, setShown] = useState(reduced ? value : 0)
-  const shownRef = useRef(reduced ? value : 0)
+  const [shown, setShown] = useState(reduced ? value : 0);
+  const shownRef = useRef(reduced ? value : 0);
 
   useEffect(() => {
     if (reduced) {
-      shownRef.current = value
-      setShown(value)
-      return
+      shownRef.current = value;
+      setShown(value);
+      return;
     }
     if (!play) {
-      shownRef.current = 0
-      setShown(0)
-      return
+      shownRef.current = 0;
+      setShown(0);
+      return;
     }
 
-    let frame = 0
-    const from = shownRef.current
-    const start = performance.now()
-    const duration = 720
+    let frame = 0;
+    const from = shownRef.current;
+    const start = performance.now();
+    const duration = 720;
     const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration)
-      const eased = 1 - (1 - t) ** 3
-      const next = Math.round(from + (value - from) * eased)
-      shownRef.current = next
-      setShown(next)
-      if (t < 1) frame = requestAnimationFrame(tick)
-    }
-    frame = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(frame)
-  }, [play, reduced, value])
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - (1 - t) ** 3;
+      const next = Math.round(from + (value - from) * eased);
+      shownRef.current = next;
+      setShown(next);
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [play, reduced, value]);
 
-  return <>{formatMoney(shown)}</>
+  return <>{formatMoney(shown)}</>;
 }
 
 function LineItem({
@@ -96,15 +100,15 @@ function LineItem({
   detail,
   show,
 }: {
-  color: string
-  title: string
-  hint: string
-  name: string
-  detail: string
-  show: boolean
+  color: string;
+  title: string;
+  hint: string;
+  name: string;
+  detail: string;
+  show: boolean;
 }) {
   return (
-    <div className={`lem-rowcard${show ? '' : ' is-collapsed'}`}>
+    <div className="lem-rowcard">
       <div className="lem-rowcard-head">
         <span className="lem-title">
           <span className="lem-dot" style={{ background: color }} />
@@ -112,60 +116,55 @@ function LineItem({
         </span>
         <span className="lem-hint">{hint}</span>
       </div>
-      {show && (
-        <motion.div
-          className="lem-entry"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.48, ease: easeOut }}
-        >
-          <span>{name}</span>
-          <span>{detail}</span>
-        </motion.div>
-      )}
+      <div className={`lem-reveal${show ? " is-open" : ""}`}>
+        <div className="lem-reveal-inner">
+          <div className="lem-entry">
+            <span>{name}</span>
+            <span>{detail}</span>
+          </div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
 export function SubTrackDemo() {
-  const rootRef = useRef<HTMLDivElement>(null)
-  const inView = useInView(rootRef, { amount: 0.28 })
-  const reduceMotion = useReducedMotion()
-  const reduced = Boolean(reduceMotion)
-  const [step, setStep] = useState(reduced ? 8 : 0)
-  const [cycle, setCycle] = useState(0)
+  const rootRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(rootRef, { amount: 0.28 });
+  const reduceMotion = useReducedMotion();
+  const reduced = Boolean(reduceMotion);
+  const [step, setStep] = useState(reduced ? 8 : 0);
+  const [cycle, setCycle] = useState(0);
 
   useEffect(() => {
     if (reduced) {
-      setStep(8)
-      return
+      setStep(8);
+      return;
     }
-    if (!inView) return
+    if (!inView) return;
 
-    setStep(0)
+    setStep(0);
     const timers = [
-      ...TIMELINE.map((ms, index) =>
-        setTimeout(() => setStep(index + 1), ms),
-      ),
+      ...TIMELINE.map((ms, index) => setTimeout(() => setStep(index + 1), ms)),
       setTimeout(() => setCycle((current) => current + 1), LOOP_AT),
-    ]
-    return () => timers.forEach(clearTimeout)
-  }, [cycle, inView, reduced])
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, [cycle, inView, reduced]);
 
-  const showProject = step >= 1
-  const showLabor = step >= 2
-  const showEquipment = step >= 3
-  const showMaterials = step >= 4
-  const showSubs = step >= 5
-  const showDocs = step >= 6
-  const showSubmit = step >= 7
-  const showDone = step >= 8
+  const showProject = step >= 1;
+  const showLabor = step >= 2;
+  const showEquipment = step >= 3;
+  const showMaterials = step >= 4;
+  const showSubs = step >= 5;
+  const showDocs = step >= 6;
+  const showSubmit = step >= 7;
+  const showDone = step >= 8;
 
   const runningTotal =
     (showLabor ? LABOR : 0) +
     (showEquipment ? EQUIPMENT : 0) +
     (showMaterials ? MATERIALS : 0) +
-    (showSubs ? SUBS : 0)
+    (showSubs ? SUBS : 0);
 
   return (
     <div
@@ -220,24 +219,22 @@ export function SubTrackDemo() {
             <div className="lem-project">
               <span className="lem-kicker">Project</span>
               <div className="lem-select">
-                <span className={showProject ? 'is-filled' : 'is-placeholder'}>
-                  {showProject
-                    ? 'Water Main Replacement'
-                    : 'Select a project…'}
+                <span className={showProject ? "is-filled" : "is-placeholder"}>
+                  {showProject ? "Water Main Replacement" : "Select a project…"}
                 </span>
                 <CaretDown size={14} weight="bold" />
               </div>
               <div className="lem-meta">
                 <div>
                   <span>Client</span>
-                  <strong className={showProject ? 'is-on' : ''}>
-                    {showProject ? 'City Municipal' : '—'}
+                  <strong className={showProject ? "is-on" : ""}>
+                    {showProject ? "City Municipal" : "—"}
                   </strong>
                 </div>
                 <div>
                   <span>PO</span>
-                  <strong className={showProject ? 'is-on' : ''}>
-                    {showProject ? 'PO-4521' : '—'}
+                  <strong className={showProject ? "is-on" : ""}>
+                    {showProject ? "PO-4521" : "—"}
                   </strong>
                 </div>
               </div>
@@ -278,7 +275,7 @@ export function SubTrackDemo() {
               />
             </div>
 
-            <div className={`lem-docs${showDocs ? ' is-on' : ''}`}>
+            <div className={`lem-docs${showDocs ? " is-on" : ""}`}>
               <span className="lem-docs-label">Site documentation</span>
               <div className="lem-docs-row">
                 <div className="lem-file">
@@ -307,7 +304,7 @@ export function SubTrackDemo() {
             <div className="lem-totals">
               <div>
                 <span>
-                  <i style={{ background: '#00742b' }} />
+                  <i style={{ background: "#00742b" }} />
                   Labor
                 </span>
                 <b>
@@ -316,7 +313,7 @@ export function SubTrackDemo() {
               </div>
               <div>
                 <span>
-                  <i style={{ background: '#126dfb' }} />
+                  <i style={{ background: "#126dfb" }} />
                   Equipment
                 </span>
                 <b>
@@ -329,7 +326,7 @@ export function SubTrackDemo() {
               </div>
               <div>
                 <span>
-                  <i style={{ background: '#e91e63' }} />
+                  <i style={{ background: "#e91e63" }} />
                   Materials
                 </span>
                 <b>
@@ -342,7 +339,7 @@ export function SubTrackDemo() {
               </div>
               <div>
                 <span>
-                  <i style={{ background: '#e65100' }} />
+                  <i style={{ background: "#e65100" }} />
                   Subcontractors
                 </span>
                 <b>
@@ -393,7 +390,11 @@ export function SubTrackDemo() {
                     <motion.small
                       initial={reduced ? false : { opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ duration: 0.45, delay: 0.28, ease: workflowEase }}
+                      transition={{
+                        duration: 0.45,
+                        delay: 0.28,
+                        ease: workflowEase,
+                      }}
                     >
                       Ready for final approval
                     </motion.small>
@@ -416,5 +417,5 @@ export function SubTrackDemo() {
         </div>
       </div>
     </div>
-  )
+  );
 }
