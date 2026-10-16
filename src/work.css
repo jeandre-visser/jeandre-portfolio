@@ -4793,3 +4793,83 @@ button.wk-sw-row:focus-visible {
     display: none;
   }
 }
+
+/* Release scene on phones: a taller stage and tighter spacing so nothing clips. */
+@media (max-width: 720px) {
+  .wk-stage-screen:has(.wk-release) {
+    aspect-ratio: 3 / 4;
+  }
+
+  .wk-release .wk-changelog {
+    padding: 0.8em;
+  }
+
+  .wk-release .wk-changelog ul {
+    gap: 0.35em;
+  }
+
+  .wk-release .wk-changelog li {
+    gap: 0.45em;
+    padding-bottom: 0.35em;
+  }
+
+  .wk-release .wk-changelog li:nth-child(3) {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .wk-release .wk-changelog li:nth-child(n + 4) {
+    display: none;
+  }
+
+  .wk-release .wk-recordings {
+    gap: 0.4em;
+    padding: 0.75em;
+  }
+
+  .wk-release .wk-recording {
+    padding: 0.5em 0.6em;
+  }
+
+  .wk-release .wk-release-loop {
+    margin-top: 0.2em;
+  }
+}
+
+/* Every phone stage gets a taller frame; the narrowest phones also drop a little content. */
+@media (max-width: 720px) {
+  .wk-stage-screen {
+    aspect-ratio: 3 / 4;
+  }
+}
+
+@media (max-width: 360px) {
+  .wk-scene {
+    font-size: 11px;
+  }
+
+  .wk-build .wk-pr:nth-child(n + 4) {
+    display: none;
+  }
+
+  .wk-release .wk-changelog li:nth-child(n + 3) {
+    display: none;
+  }
+
+  .wk-release .wk-changelog li:nth-child(2) {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .wk-release .wk-release-loop {
+    display: none;
+  }
+
+  .wk-build {
+    gap: 0.6em;
+  }
+
+  .wk-build .wk-pr-row {
+    padding: 0.5em 0.65em;
+  }
+}
