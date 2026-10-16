@@ -224,19 +224,19 @@ const deskLines = [
     label: "Labor",
     detail: "J. Smith, Foreman · 8.0 hrs @ $95",
     amount: "$760.00",
-    color: "#1e4a3b",
+    color: "#00a63e",
   },
   {
     label: "Equipment",
     detail: "210 Excavator · 4.0 hrs @ $130",
     amount: "$520.00",
-    color: "#2f6f86",
+    color: "#126dfb",
   },
   {
     label: "Materials",
     detail: "Pipe and bedding",
     amount: "$382.00",
-    color: "#8d5a2b",
+    color: "#e65100",
   },
 ];
 

@@ -242,7 +242,7 @@ export function SubTrackDemo() {
 
             <div className="lem-lines">
               <LineItem
-                color="#00742b"
+                color="#00a63e"
                 title="Labor"
                 hint="Hours & rates"
                 name="J. Smith, Foreman"
@@ -258,7 +258,7 @@ export function SubTrackDemo() {
                 show={showEquipment}
               />
               <LineItem
-                color="#e91e63"
+                color="#e65100"
                 title="Materials"
                 hint="Qty & markup"
                 name="Gravel, 50 tons"
@@ -266,7 +266,7 @@ export function SubTrackDemo() {
                 show={showMaterials}
               />
               <LineItem
-                color="#e65100"
+                color="#e91e63"
                 title="Subcontractors"
                 hint="Passed to client"
                 name="Hydrovac"
@@ -304,7 +304,7 @@ export function SubTrackDemo() {
             <div className="lem-totals">
               <div>
                 <span>
-                  <i style={{ background: "#00742b" }} />
+                  <i style={{ background: "#00a63e" }} />
                   Labor
                 </span>
                 <b>
@@ -326,7 +326,7 @@ export function SubTrackDemo() {
               </div>
               <div>
                 <span>
-                  <i style={{ background: "#e91e63" }} />
+                  <i style={{ background: "#e65100" }} />
                   Materials
                 </span>
                 <b>
@@ -339,7 +339,7 @@ export function SubTrackDemo() {
               </div>
               <div>
                 <span>
-                  <i style={{ background: "#e65100" }} />
+                  <i style={{ background: "#e91e63" }} />
                   Subcontractors
                 </span>
                 <b>

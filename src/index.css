@@ -141,6 +141,8 @@ img {
 }
 
 .brand-mark {
+  position: relative;
+  overflow: hidden;
   display: grid;
   place-items: center;
   width: 36px;
@@ -158,18 +160,18 @@ img {
   line-height: 1;
 }
 
+/* Lives inside the brand mark so it always sits exactly in the circle. */
 .nav-portrait {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 45;
-  width: 36px;
-  height: 36px;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
   border-radius: 50%;
   object-fit: cover;
   object-position: 50% 42%;
+  transform: scale(0);
   transform-origin: center center;
-  box-shadow: 0 0 0 1px var(--hairline-strong);
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
@@ -599,8 +601,9 @@ img {
   --lem-line: rgb(0 0 0 / 7%);
   --lem-fill: rgb(0 0 0 / 4%);
   --lem-card: #fff;
-  --lem-brand: #00742b;
-  --lem-brand-soft: #e6f9ec;
+  --lem-brand: #1e4a3c;
+  --lem-brand-soft: #e1efeb;
+  --lem-brand-ink: #fff;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -617,8 +620,10 @@ img {
   --lem-muted: #9a9a93;
   --lem-line: rgb(255 255 255 / 9%);
   --lem-fill: rgb(255 255 255 / 6%);
-  --lem-card: #141412;
-  --lem-brand-soft: rgb(0 116 43 / 22%);
+  --lem-card: #131316;
+  --lem-brand: #45b08c;
+  --lem-brand-soft: rgb(69 176 140 / 16%);
+  --lem-brand-ink: #050506;
 }
 
 .lem-nav {
@@ -1075,7 +1080,7 @@ img {
 
 .lem-approve {
   background: var(--lem-brand);
-  color: #fff;
+  color: var(--lem-brand-ink);
 }
 
 .lem-complete small {
@@ -1683,8 +1688,8 @@ img {
 }
 
 .st-desk-actions .is-approve {
-  border: 1px solid #1e4a3b;
-  background: #1e4a3b;
+  border: 1px solid #1e4a3c;
+  background: #1e4a3c;
   color: #fff;
 }
 
@@ -1734,7 +1739,7 @@ img {
 }
 
 .st-screen-green {
-  background: #1e4a3b;
+  background: #1e4a3c;
   color: #f4f7f4;
 }
 
@@ -1807,7 +1812,7 @@ img {
   padding: 0;
   border-radius: 50%;
   background: #f4f7f4;
-  color: #1e4a3b;
+  color: #1e4a3c;
   mask: none;
   -webkit-mask: none;
 }
@@ -1819,7 +1824,7 @@ img {
   display: block;
   width: 22px;
   height: 22px;
-  background: #1e4a3b;
+  background: #1e4a3c;
   transform: translate(-50%, -50%);
   mask: url("/subtrack-mark.svg") center / contain no-repeat;
   -webkit-mask: url("/subtrack-mark.svg") center / contain no-repeat;
@@ -1870,7 +1875,7 @@ img {
   margin-inline: auto;
   border: 1.5px solid rgb(255 255 255 / 70%);
   border-radius: 50%;
-  background: #1e4a3b;
+  background: #1e4a3c;
 }
 
 .st-progress span.is-done,
@@ -1926,7 +1931,7 @@ img {
 .st-choices .is-selected {
   border-color: #fff;
   background: #fff;
-  color: #1e4a3b;
+  color: #1e4a3c;
   font-weight: 620;
 }
 
@@ -1956,7 +1961,7 @@ img {
   padding: 0 14px;
   border-radius: 999px;
   background: #fff;
-  color: #1e4a3b;
+  color: #1e4a3c;
   font-size: 13px;
   font-weight: 620;
   line-height: 1;
@@ -2107,7 +2112,7 @@ img {
 }
 
 .st-card.is-linked {
-  border-color: color-mix(in srgb, #1e4a3b calc(var(--st-link, 0) * 100%), #e7e7e3);
+  border-color: color-mix(in srgb, #1e4a3c calc(var(--st-link, 0) * 100%), #e7e7e3);
   box-shadow: 0 8px 16px rgb(30 74 59 / calc(var(--st-link, 0) * 0.14));
 }
 
