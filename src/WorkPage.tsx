@@ -33,27 +33,64 @@ import { useScrollToHash } from "./useScrollToHash";
 const HERO_STEPS = [2200, 2200, 2200, 2200, 2800];
 const AI_STEPS = [800, 800, 800, 800, 800, 2600];
 
-function HeroLoop({ active }: { active: number }) {
+/**
+ * Phone version of the hero orbit: story-style segments that fill one after
+ * another, with the current step sliding in below.
+ */
+function HeroTicker({ active }: { active: number }) {
+  const reduceMotion = useReducedMotion();
+  const steps = work.processSteps;
+  const step = steps[active];
+
   return (
-    <motion.ol
-      className="wk-hero-loop"
-      aria-label="My process"
-      initial={{ opacity: 0, y: 12 }}
+    <motion.div
+      className="wk-ticker"
+      initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.6, type: "spring", stiffness: 120, damping: 20 }}
+      transition={{ delay: 0.55, type: "spring", stiffness: 120, damping: 20 }}
     >
-      {work.processSteps.map((step, index) => (
-        <li key={step.title} data-active={index === active}>
-          {index === active && (
+      <ol className="wk-ticker-bars" aria-label="My process">
+        {steps.map((item, index) => (
+          <li key={item.title}>
+            <span className="sr-only">{item.title}</span>
             <motion.i
-              layoutId="wk-hero-pill"
-              transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              initial={
+                index === active && !reduceMotion ? { scaleX: 0 } : false
+              }
+              animate={{
+                scaleX:
+                  index < active || reduceMotion ? 1 : index === active ? 1 : 0,
+              }}
+              transition={
+                index === active && !reduceMotion
+                  ? { duration: HERO_STEPS[index] / 1000, ease: "linear" }
+                  : { duration: 0.25 }
+              }
+              key={index === active ? `${item.title}-on` : item.title}
+              style={{ originX: 0 }}
             />
-          )}
-          <span>{step.title}</span>
-        </li>
-      ))}
-    </motion.ol>
+          </li>
+        ))}
+      </ol>
+      <div className="wk-ticker-body" aria-hidden="true">
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.div
+            key={active}
+            className="wk-ticker-step"
+            initial={{ y: 28, opacity: 0, filter: "blur(6px)" }}
+            animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+            exit={{ y: -28, opacity: 0, filter: "blur(6px)" }}
+            transition={{ type: "spring", stiffness: 240, damping: 26 }}
+          >
+            <small>
+              <em>{String(active + 1).padStart(2, "0")}</em>
+              {step.title}
+            </small>
+            <b>{step.headline}</b>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </motion.div>
   );
 }
 
@@ -381,7 +418,7 @@ export function WorkPage() {
             >
               {work.intro}
             </motion.p>
-            <HeroLoop active={heroStep} />
+            <HeroTicker active={heroStep} />
             <a className="wk-scroll-cue" href="#process">
               <span>See the process</span>
               <motion.span
